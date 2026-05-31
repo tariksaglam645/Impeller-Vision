@@ -35,6 +35,9 @@ env/
 .env.*.local
 !.env.example
 
+# Ziyaret dedupe kaydi (calisma zamani uretilir)
+notify_data/
+
 # OS / IDE
 .DS_Store
 Thumbs.db

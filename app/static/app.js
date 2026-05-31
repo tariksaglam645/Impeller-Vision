@@ -147,11 +147,18 @@ function render(d) {
 
 syncLabels();
 
-// Ziyaret bildirimi — oturum başına bir kez, sessiz (sayfayı etkilemez)
-if (!sessionStorage.getItem("iv_tracked")) {
-  sessionStorage.setItem("iv_tracked", "1");
-  fetch("/track", { method: "POST" }).catch(() => {});
-}
+// Ziyaret bildirimi — her tarayıcı için ÖMÜR BOYU yalnızca bir kez (kalıcı)
+(function () {
+  try {
+    if (!localStorage.getItem("iv_vid")) {
+      const vid = (window.crypto && crypto.randomUUID)
+        ? crypto.randomUUID()
+        : Date.now() + "-" + Math.random().toString(16).slice(2);
+      localStorage.setItem("iv_vid", vid);
+      fetch("/track?vid=" + encodeURIComponent(vid), { method: "POST" }).catch(() => {});
+    }
+  } catch (e) { /* localStorage engelliyse sessizce geç */ }
+})();
 
 // Paylaşılabilir otomatik demo: .../#demo ilk kusurlu örneği otomatik çalıştırır
 if (location.hash === "#demo") {

@@ -12,6 +12,7 @@ Bir fotoğraf yüklenir → **PASS / FAIL** kararı + güven skoru + kusurun yer
 ## Demo
 - 🔗 Canlı: **https://aremak.lingoversa.com**
 - ⚡ Otomatik demo: **https://aremak.lingoversa.com/#demo** (ilk örneği otomatik çalıştırır)
+- 👤 Geliştirici portföyü: **https://aremak.lingoversa.com/portfolio/** (header'daki butondan da erişilir)
 - 🎥 Video: _(eklenecek)_
 - 💻 Yerel: `uvicorn app.main:app` → http://127.0.0.1:8000
 - ⚡ Otomatik demo linki: `…/#demo` ilk örneği otomatik çalıştırır (tek tıkla göstermek için)
@@ -128,8 +129,10 @@ uvicorn app.main:app --host 0.0.0.0 --port 8000
 Demoya biri girince Gmail'e e-posta bildirimi gelir (sayfa açılışında `POST /track`).
 - Kurulum: `cp .env.example .env` → Gmail **uygulama şifresi** ([buradan](https://myaccount.google.com/apppasswords)) ve hedef adresi gir.
 - `.env` **git ve Docker imajından hariçtir** (gizli bilgi). Sunucuda ayrıca oluşturulur.
-- Spam koruması: IP başına 6 saatte bir + oturumda tek çağrı + arka planda gönderim.
-- SMTP ayarlı değilse `/track` sessizce devre dışı kalır (no-op).
+- **Her ziyaretçi için ömür boyu tek e-posta:** tarayıcıda kalıcı `localStorage` ID'si +
+  sunucuda kalıcı dedupe dosyası (Docker volume). Aynı kişi tekrar girince mail gelmez.
+- Arka planda gönderim (sayfayı yavaşlatmaz); SMTP ayarlı değilse `/track` no-op.
+- Zaman damgası Türkiye saatiyle (UTC+3).
 
 ## Docker ile Deploy
 ```bash
@@ -140,4 +143,4 @@ Canlı/SSL için servisi bir reverse proxy (Caddy / Nginx + certbot) arkasına a
 [`docs/deploy_oracle.md`](docs/deploy_oracle.md).
 
 ---
-**Tarık Sağlam** — Computer Vision Engineer · [GitHub](https://github.com/tariksaglam645)
+**Tarık Sağlam** — Computer Vision Engineer · [GitHub](https://github.com/tariksaglam645/Impeller-Vision) · [Canlı demo](https://aremak.lingoversa.com)

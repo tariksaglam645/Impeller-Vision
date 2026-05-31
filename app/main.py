@@ -121,10 +121,14 @@ async def track(request: Request, background: BackgroundTasks):
     SMTP ayarli degilse sessizce no-op. E-posta arka planda gonderilir."""
     if not notifier.is_configured():
         return {"ok": False, "reason": "not_configured"}
-    # Reverse proxy (Caddy) arkasinda gercek IP X-Forwarded-For'da olur
+    # Reverse proxy (nginx/Cloudflare) arkasinda gercek IP X-Forwarded-For'da olur
     xff = request.headers.get("x-forwarded-for")
     ip = xff.split(",")[0].strip() if xff else (request.client.host if request.client else "?")
-    if notifier.should_send(ip):
+    # Dedupe anahtari: tarayici ID'si (her kullanici icin omur boyu tek e-posta);
+    # ID yoksa IP'ye dus.
+    vid = request.query_params.get("vid")
+    key = vid or ip
+    if notifier.should_send(key):
         background.add_task(
             notifier.send_visit_notification,
             ip,

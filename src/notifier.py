@@ -19,12 +19,19 @@ import os
 import smtplib
 import ssl
 import threading
-import time
 from datetime import datetime, timedelta, timezone
 from email.message import EmailMessage
+from pathlib import Path
 
 # Turkiye sabit UTC+3 (yil boyu, DST yok) — tzdata bagimliligi olmadan
 TR_TZ = timezone(timedelta(hours=3))
+
+# Kalici dedupe: her ziyaretci (tarayici ID) icin OMUR BOYU tek e-posta.
+# Gorulen ID'ler bir dosyada saklanir (Docker'da volume -> restart'ta kaybolmaz).
+_STORE = Path(os.getenv("NOTIFY_STORE")
+               or (Path(__file__).resolve().parent.parent / "notify_data" / "seen_visitors.txt"))
+_lock = threading.Lock()
+_seen = None  # lazy yuklenen set
 
 _last_sent = {}
 _lock = threading.Lock()
@@ -39,7 +46,6 @@ def _cfg():
         "password": (os.getenv("SMTP_PASSWORD") or "").replace(" ", ""),
         "to": os.getenv("NOTIFY_TO") or os.getenv("SMTP_USER"),
         "from_name": os.getenv("SMTP_FROM_NAME", "ImpellerVision"),
-        "dedupe": int(os.getenv("NOTIFY_DEDUPE_SECONDS", "21600")),
     }
 
 
@@ -48,14 +54,32 @@ def is_configured() -> bool:
     return bool(c["host"] and c["user"] and c["password"])
 
 
-def should_send(ip: str) -> bool:
-    """Ayni IP icin dedupe penceresi icinde tekrar gondermeyi engeller."""
-    now = time.time()
-    window = _cfg()["dedupe"]
+def _load_seen():
+    global _seen
+    if _seen is None:
+        _seen = set()
+        try:
+            if _STORE.exists():
+                _seen = {ln.strip() for ln in _STORE.read_text(encoding="utf-8").splitlines() if ln.strip()}
+        except Exception as e:
+            print(f"[notify] dedupe dosyasi okunamadi: {e}")
+    return _seen
+
+
+def should_send(key: str) -> bool:
+    """Her ziyaretci (tarayici ID; yoksa IP) icin OMUR BOYU tek sefer True doner.
+    Gorulen anahtarlar kalici olarak dosyaya yazilir."""
     with _lock:
-        if now - _last_sent.get(ip, 0) < window:
+        seen = _load_seen()
+        if key in seen:
             return False
-        _last_sent[ip] = now
+        seen.add(key)
+        try:
+            _STORE.parent.mkdir(parents=True, exist_ok=True)
+            with open(_STORE, "a", encoding="utf-8") as f:
+                f.write(key + "\n")
+        except Exception as e:
+            print(f"[notify] dedupe dosyasina yazilamadi: {e}")
         return True
 
 

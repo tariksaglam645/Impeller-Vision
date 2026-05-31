@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Tarık Sağlam — Portfolyo (Aremak)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  @page { size: A4; margin: 0; }
+  html, body {
+    font-family: 'Source Sans 3', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10pt; line-height: 1.45; color: #2c3e50; background: #f5f5f5;
+    -webkit-font-smoothing: antialiased;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .page {
+    width: 210mm; min-height: 297mm; padding: 13mm 15mm; background: white;
+    margin: 0 auto; position: relative; page-break-after: always;
+  }
+  .page:last-child { page-break-after: auto; }
+  @media screen { body { padding: 20px 0; } .page { box-shadow: 0 4px 16px rgba(0,0,0,0.08); margin-bottom: 20px; } }
+
+  .header { border-bottom: 2.5px solid #2c3e50; padding-bottom: 4.5mm; margin-bottom: 5mm; }
+  .name { font-size: 24pt; font-weight: 800; letter-spacing: 1pt; color: #2c3e50; line-height: 1.05; }
+  .role { font-size: 12pt; font-weight: 600; color: #3498db; margin-top: 1.5mm; letter-spacing: 0.5pt; }
+  .contact { font-size: 8.5pt; color: #5a6c7d; margin-top: 2.5mm; line-height: 1.6; }
+  .contact a { color: #5a6c7d; text-decoration: none; }
+
+  .intro {
+    font-size: 9.3pt; line-height: 1.55; color: #34495e;
+    background: #f4f7fa; border-left: 3px solid #3498db;
+    padding: 3.5mm 4.5mm; margin-bottom: 4.5mm; border-radius: 0 3px 3px 0;
+  }
+  .intro strong { color: #2c3e50; }
+
+  .demo-banner {
+    display: flex; justify-content: space-between; align-items: center;
+    background: #2c3e50; color: #fff; padding: 3mm 5mm;
+    border-radius: 4px; margin-bottom: 5mm;
+  }
+  .demo-banner .dl { font-size: 8.8pt; line-height: 1.4; }
+  .demo-banner .dl strong { color: #fff; font-weight: 700; }
+  .demo-banner .du { font-size: 10.5pt; font-weight: 700; white-space: nowrap; }
+  .demo-banner a { color: #5dade2; text-decoration: none; }
+
+  .section-title {
+    font-size: 12.5pt; font-weight: 700; color: #2c3e50;
+    margin: 5mm 0 3mm 0; padding-bottom: 1.5mm; border-bottom: 1.5px solid #d5dde5;
+  }
+  .page-tag { font-size: 8pt; color: #9aa7b3; letter-spacing: 1pt; text-transform: uppercase;
+    text-align: right; margin-bottom: 2mm; }
+
+  .project { margin-bottom: 4.5mm; padding: 3.5mm 4mm; background: #fafbfc;
+    border: 1px solid #e8edf2; border-radius: 4px; page-break-inside: avoid; }
+  .project.hero { background: #f4f9fd; border: 1.5px solid #aed6f1; }
+  .project-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1.5mm; }
+  .project-title { font-size: 11pt; font-weight: 700; color: #2c3e50; }
+  .project-tag { font-size: 7.3pt; font-weight: 700; color: #fff; background: #3498db;
+    padding: 0.6mm 2mm; border-radius: 8px; text-transform: uppercase; letter-spacing: 0.4pt; white-space: nowrap; }
+  .project-tag.live { background: #27ae60; }
+  .project-tag.founder { background: #8e44ad; }
+  .project-desc { font-size: 8.8pt; line-height: 1.5; color: #45596b; }
+  .project-desc strong { color: #2c3e50; font-weight: 600; }
+
+  .gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 2mm; margin-top: 3mm; }
+  .gallery.three { grid-template-columns: 1fr 1fr 1fr; }
+  .gallery figure { margin: 0; }
+  .gallery img { width: 100%; height: 38mm; object-fit: cover; background: #eef2f6;
+    border: 1px solid #e0e6ec; border-radius: 3px; display: block; }
+  .gallery.three img { height: 33mm; }
+  .gallery figcaption { font-size: 7pt; color: #8696a6; margin-top: 1mm; text-align: center; }
+
+  .tech-tags { margin-top: 2.5mm; }
+  .tech-tag { display: inline-block; font-size: 7.3pt; font-weight: 600;
+    background: #eaf2f8; color: #2874a6; padding: 0.8mm 2.2mm; border-radius: 10px; margin: 0 1.3mm 1.3mm 0; }
+
+  .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5mm 6mm; }
+  .skill-row { font-size: 8.7pt; color: #45596b; margin-bottom: 0.8mm; }
+  .skill-row strong { color: #2c3e50; }
+
+  .exp-block { font-size: 8.8pt; line-height: 1.7; color: #45596b; }
+  .exp-block strong { color: #2c3e50; }
+  .footer-note { font-size: 7.5pt; color: #9aa7b3; text-align: center;
+    margin-top: 5mm; padding-top: 2mm; border-top: 1px solid #e5e7eb; }
+</style>
+</head>
+<body>
+
+<!-- ================= SAYFA 1 ================= -->
+<div class="page">
+
+  <header class="header">
+    <div class="name">Tarık Sağlam</div>
+    <div class="role">Görüntü İşleme Yazılım Mühendisi</div>
+    <div class="contact">
+      +90 544 407 4787 &nbsp;·&nbsp; saglamt78@gmail.com &nbsp;·&nbsp;
+      <a href="https://github.com/tariksaglam645">github.com/tariksaglam645</a> &nbsp;·&nbsp;
+      <a href="https://linkedin.com/in/tarik-saglam645">linkedin.com/in/tarik-saglam645</a>
+    </div>
+  </header>
+
+  <div class="intro">
+    <strong>Endüstriyel görüntü işleme</strong> ve derin öğrenme üzerine çalışan bir Computer Vision Engineer.
+    Üretim kalite kontrolünden 3B rekonstrüksiyona kadar uçtan uca vision sistemleri kuruyorum — algoritma
+    tasarımı, model eğitimi ve canlıya alma dahil. Geliştirme akışımı <strong>yapay zeka destekli araçlarla
+    (Claude Code, Cursor)</strong> yürütüyorum; aşağıdaki canlı demoyu bu akışla baştan sona tek başıma
+    geliştirip yayına aldım. Aremak'ın donanım + optik + yazılımı tek elde birleştiren vision yaklaşımına
+    teknik derinlik ve hızlı üretim disipliniyle katkı sağlamak istiyorum.
+  </div>
+
+  <div class="demo-banner">
+    <div class="dl"><strong>🟢 CANLI DEMO — Aremak için hazırlandı</strong><br>
+      Döküm parça yüzey kusuru tespiti · tarayıcıda görüntü yükleyip dene</div>
+    <div class="du"><a href="https://aremak.lingoversa.com/">aremak.lingoversa.com →</a></div>
+  </div>
+
+  <div class="section-title">Öne Çıkan Projeler</div>
+
+  <!-- ImpellerVision -->
+  <div class="project hero">
+    <div class="project-head">
+      <div class="project-title">ImpellerVision — Endüstriyel Kalite Kontrol</div>
+      <div class="project-tag live">Aremak için · Canlı</div>
+    </div>
+    <div class="project-desc">
+      Döküm pompa çarklarında otomatik <strong>yüzey kusuru tespiti</strong>: görüntü yüklenir →
+      <strong>PASS/FAIL + güven skoru + kusur ısı haritası</strong>. MobileNetV2 transfer learning ile
+      <strong>%99+ doğruluk</strong>; kutu/maske etiketi olmadan <strong>LayerCAM ile zayıf-denetimli
+      lokalizasyon</strong> (orta seviye katman + yüksek çözünürlüklü ısı haritası + otomatik bounding-box).
+      FastAPI + Docker ile <strong>canlıya alındı</strong>. Ayrıca <strong>aydınlatma duyarlılığı</strong>
+      demosu, endüstriyel aydınlatmanın tespit başarısına etkisini somutlaştırır.
+    </div>
+    <div class="gallery">
+      <figure><img src="portfolio-impeller-1.png" alt="LayerCAM kusur lokalizasyonu">
+        <figcaption>LayerCAM ısı haritası + bounding-box ile kusur lokalizasyonu</figcaption></figure>
+      <figure><img src="portfolio-impeller-2.png" alt="Canlı web arayüzü">
+        <figcaption>Canlı web arayüzü — PASS/FAIL + güven skoru</figcaption></figure>
+    </div>
+    <div class="tech-tags">
+      <span class="tech-tag">PyTorch</span><span class="tech-tag">MobileNetV2</span><span class="tech-tag">LayerCAM</span>
+      <span class="tech-tag">OpenCV</span><span class="tech-tag">FastAPI</span><span class="tech-tag">Docker</span>
+      <span class="tech-tag">Claude Code</span>
+    </div>
+  </div>
+
+  <!-- Meshine 3D -->
+  <div class="project">
+    <div class="project-head">
+      <div class="project-title">Drone Tabanlı 3B Rekonstrüksiyon (COLMAP · 3DGS)</div>
+      <div class="project-tag">Meshine · Profesyonel</div>
+    </div>
+    <div class="project-desc">
+      ~250 RGB drone görüntüsünden <strong>8.1M+ noktalı yoğun 3B model</strong>. COLMAP tabanlı SfM/MVS,
+      RANSAC pose estimation, bundle adjustment, triangulation; kamera kalibrasyonu ve reprojeksiyon hatası
+      minimizasyonu. <strong>3D Gaussian Splatting</strong> + özel Three.js görüntüleyici. Panel/destek
+      yapılarının U-Net + YOLO ile segmentasyonu. <em>(İlandaki 3B görüntüleme tecrübesiyle birebir örtüşür.)</em>
+    </div>
+    <div class="gallery three">
+      <figure><img src="portfolio-meshine-1.png" alt="3D Gaussian Splatting render">
+        <figcaption>3D Gaussian Splatting render</figcaption></figure>
+      <figure><img src="portfolio-meshine-3.png" alt="COLMAP yoğun nokta bulutu">
+        <figcaption>COLMAP yoğun nokta bulutu (8.1M+)</figcaption></figure>
+      <figure><img src="portfolio-meshine-4.png" alt="Panel segmentasyonu">
+        <figcaption>Panel/strüktür segmentasyonu</figcaption></figure>
+    </div>
+    <div class="tech-tags">
+      <span class="tech-tag">COLMAP</span><span class="tech-tag">SfM/MVS</span><span class="tech-tag">RANSAC</span>
+      <span class="tech-tag">Bundle Adjustment</span><span class="tech-tag">3D Gaussian Splatting</span>
+      <span class="tech-tag">Three.js</span>
+    </div>
+  </div>
+
+  <div class="footer-note">Tarık Sağlam · Görüntü İşleme Yazılım Mühendisi · Portfolyo (Aremak) · Sayfa 1/2</div>
+</div>
+
+<!-- ================= SAYFA 2 ================= -->
+<div class="page">
+  <div class="page-tag">Tarık Sağlam · Portfolyo · 2/2</div>
+
+  <!-- Lingoversa -->
+  <div class="project">
+    <div class="project-head">
+      <div class="project-title">Lingoversa — Solo Founder &amp; Full-stack Developer</div>
+      <div class="project-tag founder">Founder · Ürün Canlı</div>
+    </div>
+    <div class="project-desc">
+      Sıfırdan kurduğum global dil öğrenme ürünü: Netflix &amp; YouTube için <strong>iki tarayıcı eklentisi</strong>
+      + merkezi web platformu, <strong>50+ dil</strong>, ~250 kullanıcı. İçerik izlerken bağlama duyarlı
+      <strong>LLM destekli çeviri/sohbet</strong> (OpenRouter), maliyeti düşürmek için Redis cache'li gerçek
+      zamanlı çeviri hattı. PostgreSQL + spaced-repetition modülü; Docker ile VPS'e deploy (SSH, domain, SSL).
+      Teknik geliştirmenin yanı sıra <strong>go-to-market süreçlerini tek başıma yürüttüm</strong>
+      (SEO, Reddit/Google Ads, reklam materyali). Ürünün tamamı <strong>AI-destekli geliştirme akışıyla</strong>
+      (Claude Code/Cursor) hayata geçti. <em>Ürün hâlâ canlı (free tier).</em>
+    </div>
+    <div class="gallery">
+      <figure><img src="portfolio-lingoversa-1.png" alt="Lingoversa Netflix arayüzü">
+        <figcaption>Netflix eklentisi — bağlama duyarlı çeviri/sohbet</figcaption></figure>
+      <figure><img src="portfolio-lingoversa-2.png" alt="Lingoversa platform">
+        <figcaption>Merkezi web platformu</figcaption></figure>
+    </div>
+    <div class="tech-tags">
+      <span class="tech-tag">LLM / OpenRouter</span><span class="tech-tag">FastAPI</span><span class="tech-tag">PostgreSQL</span>
+      <span class="tech-tag">Redis</span><span class="tech-tag">Docker · VPS</span><span class="tech-tag">Browser Extensions</span>
+    </div>
+  </div>
+
+  <!-- U-Net Retina -->
+  <div class="project">
+    <div class="project-head">
+      <div class="project-title">Retina Damar Segmentasyonu (U-Net)</div>
+      <div class="project-tag">Derin Öğrenme · Segmentasyon</div>
+    </div>
+    <div class="project-desc">
+      Retina fundus görüntülerinde <strong>U-Net</strong> ile damar ağı segmentasyonu; veri artırma,
+      Dice/IoU metrikleriyle değerlendirme. İnce yapılı, düşük kontrastlı desen/kusur tespitinde
+      <strong>piksel seviyesi segmentasyon</strong> yetkinliğinin kanıtı — endüstriyel yüzey/çatlak
+      segmentasyonuna doğrudan aktarılabilir.
+    </div>
+    <div class="gallery">
+      <figure><img src="portfolio-retina.jpg" alt="Retina U-Net segmentasyon çıktısı">
+        <figcaption>U-Net damar segmentasyon çıktısı</figcaption></figure>
+    </div>
+    <div class="tech-tags">
+      <span class="tech-tag">U-Net</span><span class="tech-tag">PyTorch</span><span class="tech-tag">Semantic Segmentation</span>
+      <span class="tech-tag">OpenCV</span>
+    </div>
+  </div>
+
+  <div class="section-title">Yetenekler</div>
+  <div class="skills-grid">
+    <div class="skill-row"><strong>Endüstriyel/2D Vision:</strong> kusur tespiti, OpenCV, U-Net, YOLO, Mask R-CNN, CAM lokalizasyon</div>
+    <div class="skill-row"><strong>Derin Öğrenme:</strong> PyTorch, TensorFlow, transfer learning, HuggingFace</div>
+    <div class="skill-row"><strong>3D Vision:</strong> COLMAP, SfM/MVS, 3DGS, RANSAC, bundle adjustment, fotogrametri</div>
+    <div class="skill-row"><strong>AI-destekli geliştirme:</strong> Claude Code, Cursor — günlük kod + araştırma akışı</div>
+    <div class="skill-row"><strong>Donanım bilgisi:</strong> endüstriyel kamera arayüzleri (USB3/GigE), lens &amp; aydınlatma seçim kriterleri</div>
+    <div class="skill-row"><strong>Yazılım &amp; Deploy:</strong> Python (ileri), FastAPI, Docker, Linux, VPS, SSL · C++ (temel)</div>
+  </div>
+
+  <div class="section-title">Deneyim &amp; Eğitim</div>
+  <div class="exp-block">
+    <strong>Meshine Swarm Technologies</strong> — Software &amp; AI Developer (12.2024 — Devam)<br>
+    <strong>Lingoversa</strong> — Solo Founder / Full-stack (06.2025 — 04.2026) · ürün canlı, AI-destekli akışla tek başına geliştirildi<br>
+    <strong>C-Tech Bilişim</strong> — NLP Stajyer (02.2025 — 05.2025)<br>
+    <strong>Akdeniz Üniversitesi</strong> — Yönetim Bilişim Sistemleri (yazılım + AI/ML temelleri), Onur derecesi (3.35/4.00)
+  </div>
+
+  <div class="footer-note">Tarık Sağlam · Görüntü İşleme Yazılım Mühendisi · Portfolyo (Aremak) · Sayfa 2/2</div>
+</div>
+
+</body>
+</html>
