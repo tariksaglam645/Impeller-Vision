@@ -1,0 +1,25 @@
+# ImpellerVision — BU SUNUCUYA OZEL compose (LingoVersa nginx'i arkasinda yayin)
+# extension_nginx, container'a "impellervision" adiyla LingoVersa network'unden ulasir.
+# Kullanim (sunucuda):
+#   docker compose -f docker-compose.server.yml up -d --build
+services:
+  impellervision:
+    build: .
+    image: impellervision:latest
+    container_name: impellervision
+    expose:
+      - "8000"                      # sadece docker network ici
+    ports:
+      - "127.0.0.1:8011:8000"       # yalniz localhost (saglik kontrolu) — disari ACIK DEGIL
+    env_file:
+      - path: .env
+        required: false
+    restart: unless-stopped
+    networks:
+      - default
+      - lingoversa
+
+networks:
+  lingoversa:
+    external: true
+    name: extensions-1_LingoVersa-network

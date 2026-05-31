@@ -1,0 +1,42 @@
+# Veri seti (repoya konmaz — README'de Kaggle linki var)
+data/
+
+# Modeller — büyük binary'ler haric, egitilmis demo modeli repoda olsun
+models/*.pt
+models/*.pth
+!models/impeller_model.pt
+
+# Egitim/scratch ciktilari (gorseller docs/assets/ altinda)
+outputs/
+
+# Ic planlama notlari ve arac dosyalari (portfolyo reposunda gerekmez)
+tasks/
+.claude/
+
+# Operasyonel / kisisel dokumanlar (gercek sunucu IP'si, basvuru taslagi — PUBLIC OLMAZ)
+docs/DEPLOYMENT.md
+docs/deploy_oracle.md
+docs/linkedin_outreach.md
+
+# Gecici/yardimci scriptler ve loglar
+_*.py
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+
+# Ortam degiskenleri / gizli bilgiler (ASLA repoya girmez)
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

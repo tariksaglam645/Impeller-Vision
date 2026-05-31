@@ -1,0 +1,24 @@
+services:
+  impellervision:
+    build: .
+    image: impellervision:latest
+    container_name: impellervision
+    ports:
+      - "8000:8000"
+    # Ziyaret bildirimi SMTP bilgileri .env'den okunur (repoda yok — sunucuda olusturun).
+    # Dosya yoksa /track sessizce devre disi kalir.
+    env_file:
+      - path: .env
+        required: false
+    # Modeli imaja gommek yerine disaridan baglamak isterseniz:
+    # volumes:
+    #   - ./models:/code/models:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:8000/health').status==200 else 1)"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+# Canli/SSL: bu servisi bir reverse proxy (Caddy / Nginx + certbot) arkasina
+# alip 8000 portunu proxy'leyin. Caddy ornegi README'de.

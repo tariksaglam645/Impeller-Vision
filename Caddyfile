@@ -1,0 +1,18 @@
+# ImpellerVision — Caddy reverse proxy + otomatik HTTPS (Let's Encrypt)
+# Kullanim:
+#   1) "impeller.alanadiniz.com" yerine kendi (alt)alan adini yaz.
+#   2) DNS A kaydi bu alan adini sunucunun public IP'sine gostersin.
+#   3) caddy run --config ./Caddyfile   (ya da systemd servisi / docker)
+#
+# Caddy 80/443'u dinler, ucretsiz SSL sertifikasini otomatik alir/yeniler ve
+# istegi localhost:8000'deki uygulama konteynerine proxy'ler.
+
+impeller.alanadiniz.com {
+    reverse_proxy localhost:8000
+    encode gzip
+}
+
+# Alan adin yoksa ucretsiz test icin (sertifikasiz, sadece IP):
+# :80 {
+#     reverse_proxy localhost:8000
+# }

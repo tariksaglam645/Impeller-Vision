@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ImpellerVision — Pompa Çarkı Kusur Tespiti</title>
+  <meta name="description" content="Döküm pompa çarklarında otomatik yüzey kusuru tespiti — PASS/FAIL + güven skoru + kusur ısı haritası." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">◍</span>
+      <div class="brand-txt">
+        <h1>ImpellerVision</h1>
+        <p>Döküm pompa çarkı — otomatik yüzey kusuru tespiti</p>
+      </div>
+    </div>
+    <div class="topbar-meta">
+      <span class="chip">MobileNetV2 + LayerCAM</span>
+      <span class="chip chip-accent">Test doğruluğu %100</span>
+      <span id="health" class="health" title="bağlanıyor…">●</span>
+    </div>
+  </header>
+
+  <main>
+    <!-- Sol: kontroller -->
+    <section class="card controls">
+      <div class="step">
+        <h2><span class="num">1</span> Görüntü Yükle</h2>
+        <label id="drop" class="dropzone">
+          <input type="file" id="file" accept="image/*" hidden />
+          <span class="drop-icon">⬆</span>
+          <span class="drop-text">Çark fotoğrafını sürükle ya da <b>seç</b></span>
+          <span class="drop-hint">JPG / PNG · tek görüntü</span>
+        </label>
+
+        <div class="samples">
+          <p class="samples-label">…ya da bir örnek dene:</p>
+          <div class="thumbs">
+            <button class="thumb" data-src="samples/defect_1.jpg"><img src="samples/defect_1.jpg" alt="örnek kusurlu" /><span class="tag tag-def">kusurlu</span></button>
+            <button class="thumb" data-src="samples/defect_2.jpg"><img src="samples/defect_2.jpg" alt="örnek kusurlu" /><span class="tag tag-def">kusurlu</span></button>
+            <button class="thumb" data-src="samples/defect_3.jpg"><img src="samples/defect_3.jpg" alt="örnek kusurlu" /><span class="tag tag-def">kusurlu</span></button>
+            <button class="thumb" data-src="samples/ok_1.jpg"><img src="samples/ok_1.jpg" alt="örnek sağlam" /><span class="tag tag-ok">sağlam</span></button>
+            <button class="thumb" data-src="samples/ok_2.jpg"><img src="samples/ok_2.jpg" alt="örnek sağlam" /><span class="tag tag-ok">sağlam</span></button>
+            <button class="thumb" data-src="samples/ok_3.jpg"><img src="samples/ok_3.jpg" alt="örnek sağlam" /><span class="tag tag-ok">sağlam</span></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="step lighting">
+        <h2><span class="num">2</span> Aydınlatma Etkisi <small>endüstriyel ortam simülasyonu</small></h2>
+        <div class="slider-row">
+          <label>Parlaklık <span id="bval" class="val">1.00</span></label>
+          <input type="range" id="brightness" min="0.3" max="1.8" step="0.05" value="1.0" />
+        </div>
+        <div class="slider-row">
+          <label>Kontrast <span id="cval" class="val">1.00</span></label>
+          <input type="range" id="contrast" min="0.3" max="1.8" step="0.05" value="1.0" />
+        </div>
+        <div class="presets">
+          <button data-b="1.0" data-c="1.0" class="preset active">İdeal</button>
+          <button data-b="0.5" data-c="0.7" class="preset">Loş</button>
+          <button data-b="1.6" data-c="1.3" class="preset">Parlak / Yansıma</button>
+          <button data-b="1.0" data-c="0.5" class="preset">Düşük Kontrast</button>
+        </div>
+        <p class="note">💡 Slider'ı oynat: görüntü <b>anında</b> değişir, karar ve ısı haritası
+          duraklayınca güncellenir. Aydınlatma bozuldukça modelin güveni değişir — üretimde doğru
+          kamera/lens/aydınlatma seçiminin neden kritik olduğunu gösterir.</p>
+      </div>
+    </section>
+
+    <!-- Sağ: sonuç -->
+    <section class="card result-card">
+      <h2>Sonuç <span id="updating" class="updating hidden">↻ güncelleniyor…</span></h2>
+      <div id="placeholder" class="placeholder">
+        <span class="ph-icon">◍</span>
+        <p>Bir görüntü yükleyin veya örneklerden birine tıklayın</p>
+      </div>
+      <div id="spinner" class="spinner hidden"></div>
+      <div id="result" class="result hidden">
+        <div id="badge" class="badge">—</div>
+        <div class="conf">
+          <div class="conf-head"><span id="conftext"></span><span id="confpct" class="confpct"></span></div>
+          <div class="conf-bar"><div id="conffill" class="conf-fill"></div></div>
+        </div>
+        <div class="probs">
+          <div class="prob prob-def"><span class="prob-k">Kusur</span><b id="defprob">—</b></div>
+          <div class="prob prob-ok"><span class="prob-k">Sağlam</span><b id="okprob">—</b></div>
+        </div>
+        <div id="bboxnote" class="bboxnote hidden">📍 Kusur bölgesi işaretlendi (kırmızı kutu)</div>
+        <div class="images">
+          <figure><img id="imgInput" alt="girdi" /><figcaption>Modelin gördüğü</figcaption></figure>
+          <figure><img id="imgHeat" alt="ısı haritası" /><figcaption>LayerCAM ısı haritası + kutu</figcaption></figure>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Nasıl çalışır -->
+  <section class="how">
+    <div class="how-step"><span class="how-n">01</span><h3>Yükle</h3><p>Çark görüntüsü FastAPI <code>/predict</code> uç noktasına gönderilir.</p></div>
+    <div class="how-step"><span class="how-n">02</span><h3>Sınıflandır</h3><p>MobileNetV2 (ImageNet transfer learning) PASS/FAIL + güven skoru üretir.</p></div>
+    <div class="how-step"><span class="how-n">03</span><h3>Lokalize et</h3><p>LayerCAM ısı haritası + bounding-box ile kusur bölgesi gösterilir.</p></div>
+  </section>
+
+  <footer>
+    <span>MobileNetV2 + LayerCAM · zayıf denetimli kusur lokalizasyonu</span>
+    <span class="footer-links">
+      Veri seti:
+      <a href="https://www.kaggle.com/datasets/ravirajsinh45/real-life-industrial-dataset-of-casting-product"
+         target="_blank" rel="noopener">Casting Product Quality — Kaggle (ravirajsinh45)</a>
+    </span>
+    <span class="muted">Tarık Sağlam — Computer Vision Engineer · demo amaçlıdır</span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

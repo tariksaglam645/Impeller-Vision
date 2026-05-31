@@ -1,0 +1,13 @@
+data/
+notebooks/
+outputs/
+tasks/
+.git/
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.md
+!README.md
+.env
+.env.local
